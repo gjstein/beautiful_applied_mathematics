@@ -1,17 +1,18 @@
 sudo: false
 
-language:
-  - cpp
-
-compiler:
-  - gcc
+language: cpp
+compiler: g++
 
 addons:
   apt:
     packages:
     - libgtest-dev
+    - g++-4.8
 
 install:
+  # Compiler
+  - export CXX="g++-4.8"
+  # GTest
   - mkdir ~/gtest
   - cp -R /usr/src/gtest/ ~/
   - cd ~/gtest
