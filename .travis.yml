@@ -5,6 +5,8 @@ compiler: g++
 
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
     packages:
     - libgtest-dev
     - g++-4.8
