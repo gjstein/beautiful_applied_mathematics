@@ -11,7 +11,7 @@ addons:
 install:
   #  - sudo apt-get install libgtest-dev
   - mkdir ~/gtest
-  - cp -R /usr/src/gtest/ ~/gtest/
+  - cp -R /usr/src/gtest/ ~/
   - cd ~/gtest
   - ls ~/gtest
   - cmake .
@@ -20,7 +20,7 @@ install:
   - cd "${TRAVIS_BUILD_DIR}"
 
 script:
-  - export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/usr/local/lib
+  - export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/home/travis/gtest
   - mkdir build
   - cd build
   - cmake ..
