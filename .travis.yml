@@ -13,6 +13,7 @@ install:
   - mkdir ~/gtest
   - cp -R /usr/src/gtest/ ~/gtest/
   - cd ~/gtest
+  - ls ~/gtest
   - cmake .
   - make
   #  - mv libgtest* /usr/local/lib/
