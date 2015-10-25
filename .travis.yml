@@ -9,14 +9,11 @@ addons:
     - libgtest-dev
 
 install:
-  #  - sudo apt-get install libgtest-dev
   - mkdir ~/gtest
   - cp -R /usr/src/gtest/ ~/
   - cd ~/gtest
-  - ls ~/gtest
   - cmake .
   - make
-  #  - mv libgtest* /usr/local/lib/
   - cd "${TRAVIS_BUILD_DIR}"
 
 script:
