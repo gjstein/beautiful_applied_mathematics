@@ -3,6 +3,9 @@ sudo: false
 language:
   - cpp
 
+compiler:
+  - gcc
+
 addons:
   apt:
     packages:
