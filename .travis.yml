@@ -10,7 +10,9 @@ addons:
 
 install:
 #  - sudo apt-get install libgtest-dev
-  - cd /usr/src/gtest
+  - mkdir ~/gtest
+  - cp -R /usr/src/gtest ~/gtest/
+  - cd ~/gtest
   - cmake .
   - make
   - mv libgtest* /usr/local/lib/
