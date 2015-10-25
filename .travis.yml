@@ -17,7 +17,7 @@ install:
   - cd "${TRAVIS_BUILD_DIR}"
 
 script:
-  - export LD_LIBRARY_PATH=LD_LIBRARY_PATH:/home/travis/gtest
+  - export CMAKE_PREFIX_PATH=CMAKE_PREFIX_PATH:/home/travis/gtest
   - mkdir build
   - cd build
   - cmake ..
