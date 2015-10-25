@@ -26,8 +26,6 @@ script:
   - export CMAKE_PREFIX_PATH=CMAKE_PREFIX_PATH:/home/travis/gtest
   - mkdir build
   - cd build
-  - gcc --version
-  - g++ --version
   - cmake ..
   - make
   - ctest -V && ctest
