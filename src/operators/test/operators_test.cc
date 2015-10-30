@@ -13,10 +13,23 @@ double f_squared(double x) { return x*x; }
 
 TEST(DiffTest, SimpleFunctionTests) {
   EXPECT_NEAR(2.0, diff(*f_squared,1.0), 1e-8);
+
+  // Variable def
+  std::vector<double> v_x(5);
+  v_x = {0.1, 1.0, 2.0, 2.718, 10.0};
+
+  // Create the functions
+  std::function<double(double)> f_sq = f_squared;
+  for (double x : v_x)
+  {
+    // Test function derivatives
+    ASSERT_NEAR(2*x, diff(f_sq,x),1e-5);
+  }
+  
 }
 
 
-TEST(DiffTest, BindFunctionTests) {
+TEST(DiffTest, BindFunctionTest) {
 
   // Namespace for std::bind
   using namespace std::placeholders;
@@ -24,10 +37,10 @@ TEST(DiffTest, BindFunctionTests) {
   // Variable def
   std::vector<double> v_x(5);
   v_x = {0.1, 1.0, 2.0, 2.718, 10.0};
-  
-  // Create the bound function
-  auto df_squared = std::bind(diff,*f_squared,_1);
-  auto df_sqrt = std::bind(diff,*sqrt,_1);
+
+  // Create bound function from function pointers
+  auto df_squared = diff_f(f_squared);
+  auto df_sqrt = diff_f(sqrt);
 
   // Loop through x's
   for (double x : v_x )
@@ -38,7 +51,6 @@ TEST(DiffTest, BindFunctionTests) {
   }
   
 }
-
 
 int main(int argc, char **argv)
 {
