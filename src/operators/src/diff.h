@@ -14,4 +14,4 @@ vvfun grad_fun(dvfun f);
 
 // Simple derivative
 double diff(std::function<double(double)> f, double y);
-std::function<double(double)> diff_f(std::function<double(double)> f);
+std::function<double(double)> diff_fun(std::function<double(double)> f);

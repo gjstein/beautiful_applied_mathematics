@@ -3,7 +3,7 @@ project (operators)
 
 include_directories("src")
 
-set(SOURCE_FILES src/diff.cc)
+set(SOURCE_FILES src/diff.cc src/runge_kutta.cc)
 set(TEST_FILES test/operators_test.cc)
 
 # GTest inclusion

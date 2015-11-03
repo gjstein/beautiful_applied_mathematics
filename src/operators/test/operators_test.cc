@@ -3,7 +3,7 @@
 #include "gtest/gtest.h"
 
 #include "diff.h"
-
+#include "runge_kutta.h"
 
 // Define functions (to be operated upon)
 double f_squared(double x) { return x*x; }
@@ -37,8 +37,8 @@ TEST(DiffTest, BindFunctionTest) {
   v_x = {0.1, 1.0, 2.0, 2.718, 10.0};
 
   // Create bound function from function pointers
-  auto df_squared = diff_f(f_squared);
-  auto df_sqrt = diff_f(sqrt);
+  auto df_squared = diff_fun(f_squared);
+  auto df_sqrt = diff_fun(sqrt);
 
   // Loop through x's
   for (double x : v_x )
@@ -72,6 +72,29 @@ TEST(GradTest, SimpleTest) {
     ASSERT_NEAR(analytic_grad[qqq], numerical_grad[qqq], 1e-5);
 
 }
+
+TEST(RungeKuttaTest, SimpleTest)
+{
+  // Define the RHS
+  auto ydot = [=](double t, double y){ return y; };
+
+  // Initial conditions
+  double y = 1.0;
+  double t = 0.0;
+  double tf = 1.0;
+  int num_steps = 20;
+  double dt = (tf-t)/num_steps;
+  for (int qqq = 0; qqq<num_steps; qqq++){
+    // Compute y at t+dt
+    y = rk4(ydot,t,y,dt);
+    // Update t
+    t = t + dt;
+    // Test accuracy
+    ASSERT_NEAR(y,exp(t),1e-6);
+  }
+  
+}
+
 
 int main(int argc, char **argv)
 {

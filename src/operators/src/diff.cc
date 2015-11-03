@@ -3,7 +3,7 @@
 double diff(std::function<double(double)>f, double y) {
   return ( f(y+EPS) - f(y-EPS) )/( 2.0*EPS );
 }
-std::function<double(double)> diff_f(std::function<double(double)>f){
+std::function<double(double)> diff_fun(std::function<double(double)>f){
   return [=](double y){ return diff(f,y);};
 }
 
