@@ -5,40 +5,36 @@
 #include "diff.h"
 #include "runge_kutta.h"
 
-// Define functions (to be operated upon)
-double f_squared(double x) { return x*x; }
-
-
-TEST(DiffTest, SimpleFunctionTests) {
-  EXPECT_NEAR(2.0, diff(*f_squared,1.0), 1e-8);
+TEST(GradTest, simpleFunctionTests) {
 
   // Variable def
   std::vector<double> v_x(5);
   v_x = {0.1, 1.0, 2.0, 2.718, 10.0};
 
   // Create the functions
-  std::function<double(double)> f_sq = f_squared;
+  std::function<double(double)> f_squared = [](double x){ return x*x; };
+  
   for (double x : v_x)
   {
     // Test function derivatives
-    ASSERT_NEAR(2*x, diff(f_sq,x),1e-5);
+    ASSERT_NEAR(2*x, diff(f_squared,x),1e-5);
   }
   
 }
 
 
-TEST(DiffTest, BindFunctionTest) {
-
-  // Namespace for std::bind
-  using namespace std::placeholders;
+TEST(DiffTest, lambdaFunctionTest) {
 
   // Variable def
   std::vector<double> v_x(5);
   v_x = {0.1, 1.0, 2.0, 2.718, 10.0};
 
+  // Function definition
+  std::function<double(double)> f_squared = [](double x){ return x*x; };
+  
   // Create bound function from function pointers
-  auto df_squared = diff_fun(f_squared);
-  auto df_sqrt = diff_fun(sqrt);
+  auto df_squared = grad(f_squared);
+  auto df_sqrt = grad(sqrt);
 
   // Loop through x's
   for (double x : v_x )
@@ -51,7 +47,7 @@ TEST(DiffTest, BindFunctionTest) {
 }
 
 
-TEST(GradTest, SimpleTest) {
+TEST(GradTest, simpleMultidimensionalTest) {
 
   // Initialize position vector
   dvec y = { 1.5, 2.0, 1.34 };
@@ -71,26 +67,57 @@ TEST(GradTest, SimpleTest) {
   for (int qqq = 0; qqq<dim; qqq++)
     ASSERT_NEAR(analytic_grad[qqq], numerical_grad[qqq], 1e-5);
 
+  // Test that the bound function is working correctly
+  auto lambda_grad = grad(f2d);
+  numerical_grad = lambda_grad(y);
+  for (int qqq = 0; qqq<dim; qqq++)
+    ASSERT_NEAR(analytic_grad[qqq], numerical_grad[qqq], 1e-5);
+  
 }
 
-TEST(RungeKuttaTest, SimpleTest)
+TEST(RungeKuttaTest, simpleODEs)
 {
-  // Define the RHS
-  auto ydot = [=](double t, double y){ return y; };
 
+  // Declarations
+  double y, t, tf, dt;
+  int num_steps;
+  
+  // === Exponential ===
+  // y' = y && y(0)=1
+      
+  // Define the RHS
+  auto ydot_exp = [](double t, double y){ return y; };
   // Initial conditions
-  double y = 1.0;
-  double t = 0.0;
-  double tf = 1.0;
-  int num_steps = 20;
-  double dt = (tf-t)/num_steps;
+  y = 1.0;
+  t = 0.0; tf = 1.0;
+  num_steps = 20; dt = (tf-t)/num_steps;
+  // Iterate
   for (int qqq = 0; qqq<num_steps; qqq++){
     // Compute y at t+dt
-    y = rk4(ydot,t,y,dt);
+    y = rk4(ydot_exp,t,y,dt);
     // Update t
     t = t + dt;
     // Test accuracy
     ASSERT_NEAR(y,exp(t),1e-6);
+  }
+
+  // === Driven Oscilator ===
+  // y' = -sin(t) &&  [y=cos(t)]
+  
+  // Define RHS
+  auto ydot_sin = [](double t, double y){ return -sin(t); };
+  // Initial Conditions
+  y = 1.0;
+  t = 0.0; tf = 1.0;
+  num_steps = 20;
+  // Iterate
+  for (int qqq = 0; qqq<num_steps; qqq++){
+    // Compute y at t+dt
+    y = rk4(ydot_sin,t,y,dt);
+    // Update t
+    t = t + dt;
+    // Test accuracy
+    ASSERT_NEAR(y,cos(t),1e-8);
   }
   
 }

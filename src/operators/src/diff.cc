@@ -35,5 +35,19 @@ dvec grad(dvfun f, dvec y)
   return out;
   
 }
+double grad(std::function<double(double)>f, double y) {
+  return ( f(y+EPS) - f(y-EPS) )/( 2.0*EPS );
+}
 
-vvfun grad_fun(dvfun f){ return [=](dvec y){ return grad(f,y); }; }
+// Lambda function outputs
+
+std::function<double(double)> grad(std::function<double(double)> f){
+  return [=](double y){
+    return grad(f,y);
+  };
+}
+std::function<dvec(dvec)> grad(std::function<double(dvec)> f){
+  return [=](dvec y){
+    return grad(f,y);
+  };
+}
