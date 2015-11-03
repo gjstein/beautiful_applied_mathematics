@@ -1,5 +1,3 @@
-#include <functional>
-#include <vector>
 #include <cmath>
 
 #include "gtest/gtest.h"
@@ -50,6 +48,29 @@ TEST(DiffTest, BindFunctionTest) {
     ASSERT_NEAR(1/2.0/sqrt(x), df_sqrt(x), 1e-5);
   }
   
+}
+
+
+TEST(GradTest, SimpleTest) {
+
+  // Initialize position vector
+  dvec y = { 1.5, 2.0, 1.34 };
+
+  // Define the function and its gradient
+  auto f2d = [=](dvec y) { return y[0]*y[0] + 2.0*y[1]*y[1] + y[2]*y[2]*sqrt(y[2]); };
+  auto a_grad_f2d = [=](dvec y){
+    dvec out { 2.0*y[0], 2*2.0*y[1], 2.5*y[2]*sqrt(y[2]) };
+    return out;
+  };
+  // Calculate the gradients (both methods)
+  dvec analytic_grad = a_grad_f2d(y);
+  dvec numerical_grad = grad(f2d,y);
+  
+  // Loop through elements & compare
+  int dim = y.size();
+  for (int qqq = 0; qqq<dim; qqq++)
+    ASSERT_NEAR(analytic_grad[qqq], numerical_grad[qqq], 1e-5);
+
 }
 
 int main(int argc, char **argv)
