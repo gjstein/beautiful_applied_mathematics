@@ -16,5 +16,5 @@ add_executable(operators_test ${TEST_FILES} ${SOURCE_FILES})
 target_link_libraries(operators_test
     ${GTEST_LIBRARIES}
 )
-add_test(NAME operators_test COMMAND operators_test)
+add_test(NAME operators_test COMMAND operators_test --gtest_color=yes)
 
