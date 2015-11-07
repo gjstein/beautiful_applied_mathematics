@@ -12,6 +12,15 @@ inline bool file_exists(const std::string& name)
   return ( stat(name.c_str(), &buffer) == 0 );
 }
 
+TEST(GnuplotTest, gnuplotFound)
+{
+
+  int ret = system("gnuplot --version 2>&1");
+  if (ret == 32512)
+    FAIL() << "Gnuplot: command not found/installed";
+
+}
+
 
 TEST(GnuplotTest, testPiping)
 {
@@ -23,16 +32,15 @@ TEST(GnuplotTest, testPiping)
   // Check file does not exist
   if ( file_exists(name) )
     remove( name.c_str() );
-  ASSERT_FALSE(file_exists(name));
+  EXPECT_FALSE(file_exists(name));
 
   FILE *gnuplot_pipe;
   gnuplot_pipe = popen(GNUPLOT,"w");
 
   // Handle broken pipe
-  if ( gnuplot_pipe == NULL )
+  if ( !gnuplot_pipe )
   {
-    printf("Could not open pipe; ensure gnuplot is in the path.");
-    FAIL() << "Gnuplot not installed";
+    FAIL() << "Could not open pipe";
     return;
   }
 
@@ -46,11 +54,11 @@ TEST(GnuplotTest, testPiping)
   while (!file_exists(name) && counter++<200){ usleep(1000); }
   
   // Check file exists
-  ASSERT_TRUE(file_exists(name));
+  EXPECT_TRUE(file_exists(name));
   
   // Delete file & check that it's deleted
   remove( name.c_str() );
-  ASSERT_FALSE(file_exists(name));
+  EXPECT_FALSE(file_exists(name));
   
 }
 
