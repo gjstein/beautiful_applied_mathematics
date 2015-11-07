@@ -32,7 +32,7 @@ TEST(GnuplotTest, testPiping)
   if ( gnuplot_pipe == NULL )
   {
     printf("Could not open pipe; ensure gnuplot is in the path.");
-    // TODO Add failure mode here
+    FAIL() << "Gnuplot not installed";
     return;
   }
 
@@ -43,7 +43,7 @@ TEST(GnuplotTest, testPiping)
 
   // Check png exists (loop required; gnuplot can be slow)
   int counter = 0;
-  while (!file_exists(name) && counter++<100){ usleep(1000); }
+  while (!file_exists(name) && counter++<200){ usleep(1000); }
   
   // Check file exists
   ASSERT_TRUE(file_exists(name));

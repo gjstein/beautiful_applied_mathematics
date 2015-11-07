@@ -10,7 +10,6 @@ addons:
     packages:
     - libgtest-dev
     - g++-4.8
-    - gnuplot
 
 install:
   # Compiler
