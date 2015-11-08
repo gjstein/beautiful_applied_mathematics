@@ -5,8 +5,8 @@ project (utilities)
 include_directories("src")
 
 # Store files
-file(GLOB SOURCE_FILES src/*.cc)
-file(GLOB HEADER_FILES src/*.h)
+file(GLOB SOURCE_FILES src/${PROJECT_NAME}/*.cc)
+file(GLOB HEADER_FILES src/${PROJECT_NAME}/*.h)
 file(GLOB TEST_FILES test/*.cc)
 
 
@@ -26,3 +26,6 @@ target_link_libraries(${PROJECT_NAME}_test
     ${GTEST_LIBRARIES}
 )
 add_test(NAME ${PROJECT_NAME}_test COMMAND ${PROJECT_NAME}_test --gtest_color=yes)
+
+# Create library
+add_library(${PROJECT_NAME} STATIC ${SOURCE_FILES} ${HEADER_FILES})

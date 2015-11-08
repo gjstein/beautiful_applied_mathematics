@@ -5,8 +5,8 @@ project (operators)
 include_directories("src")
 
 # Store files
-file(GLOB SOURCE_FILES src/*.cc)
-file(GLOB HEADER_FILES src/*.h)
+file(GLOB SOURCE_FILES src/${PROJECT_NAME}/*.cc)
+file(GLOB HEADER_FILES src/${PROJECT_NAME}/*.h)
 file(GLOB TEST_FILES test/*.cc)
 
 # GTest inclusion

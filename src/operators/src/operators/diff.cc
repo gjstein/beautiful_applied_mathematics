@@ -1,6 +1,5 @@
 #include "diff.h"
 
-
 namespace operators {
 
 double diff(std::function<double(double)>f, double y) {

@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include "gtest/gtest.h"
 
-#include "gnuplot.h"
+#include "utilities/gnuplot.h"
 
 // Existance of file
 inline bool file_exists(const std::string& name)

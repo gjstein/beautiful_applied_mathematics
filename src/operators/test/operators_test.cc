@@ -2,8 +2,8 @@
 
 #include "gtest/gtest.h"
 
-#include "diff.h"
-#include "runge_kutta.h"
+#include "operators/diff.h"
+#include "operators/runge_kutta.h"
 
 TEST(GradTest, simpleFunctionTests) {
 
