@@ -4,6 +4,11 @@ project (operators)
 # Set include directory
 include_directories("src")
 
+# Eigen
+find_package( PkgConfig )
+pkg_check_modules( EIGEN3 REQUIRED eigen3 )
+include_directories( ${EIGEN3_INCLUDE_DIRS} )
+
 # Store files
 file(GLOB SOURCE_FILES src/${PROJECT_NAME}/*.cc)
 file(GLOB HEADER_FILES src/${PROJECT_NAME}/*.h)

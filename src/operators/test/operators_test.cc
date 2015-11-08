@@ -123,6 +123,36 @@ TEST(RungeKuttaTest, simpleODEs)
 }
 
 
+TEST(RungeKuttaTest, simpleODEsFunctionInput)
+{
+
+  // Declarations
+  double y = 1.0;
+  double t = 0.0;
+  double tf = 1.0;
+  
+  int num_steps = 20;
+  double dt = (tf-t)/num_steps;
+
+  // Initialization condition
+  operators::DT dat(y,t);
+
+  // Define function
+  auto ydot_exp = [](double t, double y){ return y; };
+  
+  // Iterate
+  for (int qqq = 0; qqq<num_steps; qqq++){
+    // Compute y at t+dt
+    dat = operators::rk4(ydot_exp,dat,dt);
+    // Update t
+    t = t + dt;
+    // Test accuracy
+    ASSERT_NEAR(dat.y,exp(t),1e-6);
+  }
+  
+}
+
+
 int main(int argc, char **argv)
 {
     ::testing::InitGoogleTest(&argc, argv);

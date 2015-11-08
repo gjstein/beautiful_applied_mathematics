@@ -1,8 +1,12 @@
 cmake_minimum_required (VERSION 2.8)
 project (duffing)
 
+
 # Include directories + library includes
-include_directories("src" ${operators_SOURCE_DIR}/src ${utilities_SOURCE_DIR}/src)
+include_directories("src"
+  ${operators_SOURCE_DIR}/src
+  ${utilities_SOURCE_DIR}/src
+  ${EIGEN3_INCLUDE_DIR})
 
 # Store files
 file(GLOB SOURCE_FILES src/*.cc)

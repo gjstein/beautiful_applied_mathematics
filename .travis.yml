@@ -11,6 +11,7 @@ addons:
     - libgtest-dev
     - g++-4.8
     - gnuplot
+    - libeigen3-dev
 
 install:
   # Compiler
