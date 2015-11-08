@@ -5,4 +5,4 @@ add_subdirectory(utilities)
 add_subdirectory(operators)
 
 # Demo code
-add_subdirectory(duffing)
+#add_subdirectory(duffing)
