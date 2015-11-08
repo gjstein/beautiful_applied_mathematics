@@ -17,7 +17,7 @@ TEST(GradTest, simpleFunctionTests) {
   for (double x : v_x)
   {
     // Test function derivatives
-    ASSERT_NEAR(2*x, diff(f_squared,x),1e-5);
+    ASSERT_NEAR(2*x, operators::grad(f_squared,x),1e-5);
   }
   
 }
@@ -33,8 +33,8 @@ TEST(DiffTest, lambdaFunctionTest) {
   std::function<double(double)> f_squared = [](double x){ return x*x; };
   
   // Create bound function from function pointers
-  auto df_squared = grad(f_squared);
-  auto df_sqrt = grad(sqrt);
+  auto df_squared = operators::grad(f_squared);
+  auto df_sqrt = operators::grad(sqrt);
 
   // Loop through x's
   for (double x : v_x )
@@ -50,17 +50,17 @@ TEST(DiffTest, lambdaFunctionTest) {
 TEST(GradTest, simpleMultidimensionalTest) {
 
   // Initialize position vector
-  dvec y = { 1.5, 2.0, 1.34 };
+  std::vector<double> y = { 1.5, 2.0, 1.34 };
 
   // Define the function and its gradient
-  auto f2d = [=](dvec y) { return y[0]*y[0] + 2.0*y[1]*y[1] + y[2]*y[2]*sqrt(y[2]); };
-  auto a_grad_f2d = [=](dvec y){
-    dvec out { 2.0*y[0], 2*2.0*y[1], 2.5*y[2]*sqrt(y[2]) };
+  auto f2d = [=](std::vector<double> y) { return y[0]*y[0] + 2.0*y[1]*y[1] + y[2]*y[2]*sqrt(y[2]); };
+  auto a_grad_f2d = [=](std::vector<double> y){
+    std::vector<double> out { 2.0*y[0], 2*2.0*y[1], 2.5*y[2]*sqrt(y[2]) };
     return out;
   };
   // Calculate the gradients (both methods)
-  dvec analytic_grad = a_grad_f2d(y);
-  dvec numerical_grad = grad(f2d,y);
+  auto analytic_grad = a_grad_f2d(y);
+  auto numerical_grad = operators::grad(f2d,y);
   
   // Loop through elements & compare
   int dim = y.size();
@@ -68,7 +68,7 @@ TEST(GradTest, simpleMultidimensionalTest) {
     ASSERT_NEAR(analytic_grad[qqq], numerical_grad[qqq], 1e-5);
 
   // Test that the bound function is working correctly
-  auto lambda_grad = grad(f2d);
+  auto lambda_grad = operators::grad(f2d);
   numerical_grad = lambda_grad(y);
   for (int qqq = 0; qqq<dim; qqq++)
     ASSERT_NEAR(analytic_grad[qqq], numerical_grad[qqq], 1e-5);
@@ -94,7 +94,7 @@ TEST(RungeKuttaTest, simpleODEs)
   // Iterate
   for (int qqq = 0; qqq<num_steps; qqq++){
     // Compute y at t+dt
-    y = rk4(ydot_exp,t,y,dt);
+    y = operators::rk4(ydot_exp,t,y,dt);
     // Update t
     t = t + dt;
     // Test accuracy
@@ -113,7 +113,7 @@ TEST(RungeKuttaTest, simpleODEs)
   // Iterate
   for (int qqq = 0; qqq<num_steps; qqq++){
     // Compute y at t+dt
-    y = rk4(ydot_sin,t,y,dt);
+    y = operators::rk4(ydot_sin,t,y,dt);
     // Update t
     t = t + dt;
     // Test accuracy

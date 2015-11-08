@@ -1,5 +1,8 @@
 #include "diff.h"
 
+
+namespace operators {
+
 double diff(std::function<double(double)>f, double y) {
   return ( f(y+EPS) - f(y-EPS) )/( 2.0*EPS );
 }
@@ -51,3 +54,5 @@ std::function<dvec(dvec)> grad(std::function<double(dvec)> f){
     return grad(f,y);
   };
 }
+
+} // operators

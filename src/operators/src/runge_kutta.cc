@@ -1,5 +1,7 @@
 #include "runge_kutta.h"
 
+namespace operators {
+
 double rk4(std::function<double(double,double)> ydot, double t, double y, double h)
 {
   double k1 = ydot(t,y);
@@ -10,3 +12,5 @@ double rk4(std::function<double(double,double)> ydot, double t, double y, double
   return y + h/6 * ( k1 + 2*k2 + 2*k3 + k4 );
   
 }
+
+} // namespace operators

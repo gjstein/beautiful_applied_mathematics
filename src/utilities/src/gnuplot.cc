@@ -1,5 +1,7 @@
 #include "gnuplot.h"
 
+namespace util {
+
 void gnuplot(std::vector<double> y)
 {
 
@@ -21,3 +23,5 @@ void gnuplot(std::vector<double> y)
   fclose(gnuplot_pipe);
 
 }
+
+} // namespace util
